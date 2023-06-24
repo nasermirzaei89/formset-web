@@ -1,36 +1,36 @@
 <template>
-  <v-app>
-    <v-app-bar class="px-4" flat>
+  <v-app id="app">
+    <v-app-bar class="px-4" scroll-behavior="elevate">
       <v-avatar color="green">FS</v-avatar>
       <v-app-bar-title>FormSet</v-app-bar-title>
       <v-spacer></v-spacer>
-      <v-btn color="primary" variant="flat" size="large">
+      <v-btn color="primary" variant="flat" rounded :size="$vuetify.display.smAndUp?'large':undefined">
         Sign In
       </v-btn>
     </v-app-bar>
-    <v-main>
+    <v-main class="pt-8">
       <v-sheet class="bg-green">
         <v-container>
-          <v-row class="justify-center py-8">
-            <v-col cols="12" class="text-center py-8">
-              <div class="text-h2">Forms for Everywhere</div>
+          <v-row class="justify-center py-4 py-sm-12">
+            <v-col cols="12" class="text-center">
+              <div class="text-h4 text-sm-h3 text-md-h2">Forms for Everywhere</div>
               <p class="text-subtitle-1">Add forms to your static website without a backend. </p>
             </v-col>
             <v-col cols="12" sm="10" md="9" lg="8" xl="6">
-              <pre class="border pa-4 bg-black overflow-x-auto"><code>{{code}}</code></pre>
+              <pre class="border pa-4 bg-black overflow-x-auto rounded-xl"><code>{{ code }}</code></pre>
             </v-col>
           </v-row>
         </v-container>
       </v-sheet>
-      <v-sheet color="grey-lighten-5">
+      <v-sheet>
         <v-container>
-          <v-row class="justify-center py-12">
+          <v-row class="justify-center py-4 py-sm-12">
             <v-col cols="12" class="text-center pb-8">
-              <div class="text-h3 my-4">Features</div>
+              <div class="text-h4 text-sm-h3 my-4">Features</div>
             </v-col>
             <v-col cols="12" md="4">
-              <v-card class="text-center pa-8 fill-height" variant="tonal" color="primary">
-                  <v-icon size="96">mdi-security</v-icon>
+              <v-card class="text-center pa-8 fill-height" rounded="xl" variant="tonal" color="primary">
+                <v-icon size="96">mdi-security</v-icon>
                 <v-card-title class="text-h5">
                   Secure
                 </v-card-title>
@@ -40,8 +40,8 @@
               </v-card>
             </v-col>
             <v-col cols="12" md="4">
-              <v-card class="text-center pa-8 fill-height" variant="tonal" color="primary">
-                  <v-icon size="96">mdi-infinity</v-icon>
+              <v-card class="text-center pa-8 fill-height" rounded="xl" variant="tonal" color="primary">
+                <v-icon size="96">mdi-infinity</v-icon>
                 <v-card-title class="text-h5">
                   Free
                 </v-card-title>
@@ -51,8 +51,8 @@
               </v-card>
             </v-col>
             <v-col cols="12" md="4">
-              <v-card class="text-center pa-8 fill-height" variant="tonal" color="primary">
-                  <v-icon size="96">mdi-connection</v-icon>
+              <v-card class="text-center pa-8 fill-height" rounded="xl" variant="tonal" color="primary">
+                <v-icon size="96">mdi-connection</v-icon>
                 <v-card-title class="text-h5">
                   Channels
                 </v-card-title>
@@ -64,39 +64,39 @@
           </v-row>
         </v-container>
       </v-sheet>
-      <v-sheet>
+      <v-sheet color="grey-lighten-5">
         <v-container>
-          <v-row class="justify-center py-12">
+          <v-row class="justify-center py-4 py-sm-12">
             <v-col cols="12" class="text-center pb-8">
-              <div class="text-h3 my-4">How to Use</div>
+              <div class="text-h4 text-sm-h3 my-4">How to Use</div>
             </v-col>
             <v-col cols="12" sm="6" lg="3">
-              <v-card class="text-center pa-8 fill-height" variant="tonal" color="primary" @click="">
-                  <v-icon size="96">mdi-language-html5</v-icon>
+              <v-card class="text-center pa-8 fill-height" rounded="xl" variant="tonal" color="primary" @click="">
+                <v-icon size="96">mdi-language-html5</v-icon>
                 <v-card-title class="text-h5">
                   HTML
                 </v-card-title>
               </v-card>
             </v-col>
             <v-col cols="12" sm="6" lg="3">
-              <v-card class="text-center pa-8 fill-height" variant="tonal" color="primary" @click="">
-                  <v-icon size="96">mdi-cached</v-icon>
+              <v-card class="text-center pa-8 fill-height" rounded="xl" variant="tonal" color="primary" @click="">
+                <v-icon size="96">mdi-cached</v-icon>
                 <v-card-title class="text-h5">
                   AJAX
                 </v-card-title>
               </v-card>
             </v-col>
             <v-col cols="12" sm="6" lg="3">
-              <v-card class="text-center pa-8 fill-height" variant="tonal" color="primary" @click="">
-                  <v-icon size="96">mdi-react</v-icon>
+              <v-card class="text-center pa-8 fill-height" rounded="xl" variant="tonal" color="primary" @click="">
+                <v-icon size="96">mdi-react</v-icon>
                 <v-card-title class="text-h5">
                   React
                 </v-card-title>
               </v-card>
             </v-col>
             <v-col cols="12" sm="6" lg="3">
-              <v-card class="text-center pa-8 fill-height" variant="tonal" color="primary" @click="">
-                  <v-icon size="96">mdi-vuejs</v-icon>
+              <v-card class="text-center pa-8 fill-height" rounded="xl" variant="tonal" color="primary" @click="">
+                <v-icon size="96">mdi-vuejs</v-icon>
                 <v-card-title class="text-h5">
                   Vue
                 </v-card-title>
@@ -105,26 +105,26 @@
           </v-row>
         </v-container>
       </v-sheet>
-      <v-sheet color="grey-lighten-4">
+      <v-sheet>
         <v-container>
-          <v-row class="justify-center py-12">
+          <v-row class="justify-center py-4 py-sm-12">
             <v-col cols="12" class="text-center pb-8">
-              <div class="text-h3 my-4">Start for Free</div>
-              <v-btn class="mt-8" size="x-large" variant="flat" color="primary">Start for Free</v-btn>
+              <div class="text-h4 text-sm-h3 my-4">Ready?</div>
+              <v-btn class="mt-8" size="x-large" variant="flat" color="primary" rounded>Start for Free</v-btn>
             </v-col>
           </v-row>
         </v-container>
       </v-sheet>
       <v-sheet color="grey-darken-2">
         <v-container>
-          <v-row class="justify-center py-12">
+          <v-row class="justify-center py-4 py-sm-12">
             <v-col cols="12" sm="10" md="9" lg="8" xl="6" class="text-center pb-8">
-              <div class="text-h3 my-4">Contact Us</div>
+              <div class="text-h4 text-sm-h3 my-4">Contact Us</div>
               <v-form>
-                <v-text-field label="Email Address" type="email" />
+                <v-text-field label="Email Address" type="email"/>
                 <v-textarea label="Message"/>
 
-              <v-btn variant="tonal" color="primary" size="large">Send</v-btn>
+                <v-btn variant="tonal" color="primary" size="large" prepend-icon="mdi-send" rounded>Send</v-btn>
               </v-form>
             </v-col>
           </v-row>
@@ -132,7 +132,7 @@
       </v-sheet>
     </v-main>
     <v-footer class="justify-center bg-grey-darken-3 pa-4">
-      Copyright &copy; 2023 FormSet Team.
+      &copy; {{ new Date().getFullYear() }} FormSet Team.
     </v-footer>
   </v-app>
 </template>
