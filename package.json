@@ -13,5 +13,10 @@
     "@types/node": "^18",
     "nuxt": "^3.6.0",
     "typescript": "latest"
+  },
+  "dependencies": {
+    "@mdi/font": "^7.2.96",
+    "sass": "^1.63.6",
+    "vuetify": "^3.3.4"
   }
 }
