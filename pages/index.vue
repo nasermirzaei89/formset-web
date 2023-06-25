@@ -113,7 +113,8 @@
           <v-row class="justify-center py-4 py-sm-12">
             <v-col cols="12" class="text-center pb-8">
               <div class="text-h4 text-sm-h3 my-4">Ready?</div>
-              <v-btn class="mt-8" size="x-large" variant="flat" color="primary">Start for Free</v-btn>
+              <v-btn v-if="auth0?.isAuthenticated?.value" :loading="auth0?.isLoading?.value" to="/dashboard" class="mt-8" size="x-large" variant="flat" color="primary">Start for Free</v-btn>
+              <v-btn v-else @click="signIn" :loading="auth0?.isLoading?.value" class="mt-8" size="x-large" variant="flat" color="primary">Start for Free</v-btn>
             </v-col>
           </v-row>
         </v-container>

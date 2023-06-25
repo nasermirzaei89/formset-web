@@ -17,26 +17,38 @@
             Records
           </v-window-item>
           <v-window-item value="settings">
-            <div class="text-h5">Danger Zone</div>
-            <v-list>
-              <v-list-item title="Delete this form" subtitle="-">
-                <v-list-item-action>
-                  <v-dialog v-model="deleteDialog" width="auto">
-                    <template v-slot:activator="{ props }">
-                      <v-btn color="error" v-bind="props">Delete</v-btn>
-                    </template>
-                    <v-card>
-                      <v-card-title>Delete Form</v-card-title>
-                      <v-card-text>Are you sure to delete this form?</v-card-text>
-                      <v-card-actions class="justify-end">
-                        <v-btn @click="deleteDialog=false">Dismiss</v-btn>
-                        <v-btn color="error" :loading="deletingForm" @click="deleteForm">Delete</v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>
-                </v-list-item-action>
-              </v-list-item>
-            </v-list>
+            <v-card variant="tonal" class="my-2">
+              <v-form @submit.prevent="updateForm">
+              <v-card-title>Info</v-card-title>
+              <v-card-text>
+                <v-text-field label="Title" v-model="info.title" />
+              </v-card-text>
+              <v-card-actions>
+                <v-btn color="primary" :loading="updatingForm" type="submit" variant="flat">Save</v-btn>
+              </v-card-actions>
+              </v-form>
+            </v-card>
+            <v-card variant="tonal" color="error" class="my-2">
+              <v-card-item>Danger Zone</v-card-item>
+              <v-card-text>
+                Delete this form
+              </v-card-text>
+              <v-card-actions>
+                <v-dialog v-model="deleteDialog" width="auto">
+                  <template v-slot:activator="{ props }">
+                    <v-btn color="error" v-bind="props" variant="flat">Delete</v-btn>
+                  </template>
+                  <v-card>
+                    <v-card-title>Delete Form</v-card-title>
+                    <v-card-text>Are you sure to delete this form?</v-card-text>
+                    <v-card-actions class="justify-end">
+                      <v-btn @click="deleteDialog=false">Dismiss</v-btn>
+                      <v-btn color="error" :loading="deletingForm" @click="deleteForm">Delete</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-card-actions>
+            </v-card>
           </v-window-item>
         </v-window>
       </v-col>
@@ -52,16 +64,44 @@ definePageMeta({
 });
 
 const tab = ref()
-const deleteDialog = ref(false)
+
+const form = ref()
+const loadingForm = ref(true)
+
+const info = ref({title: undefined})
+const updatingForm = ref(false)
+
 const deletingForm = ref(false)
+const deleteDialog = ref(false)
 
 const route = useRoute()
 const router = useRouter()
 
-try {
-  const form = await $fetch(`http://localhost:8000/forms/${route.params.formName}`)
-} catch (e) {
-  await router.push('/dashboard')
+loadForm()
+
+async function loadForm() {
+  loadingForm.value = true
+
+  try {
+    form.value = await $fetch(`http://localhost:8000/forms/${route.params.formName}`)
+    info.value.title = form.value.title
+  } catch (e) {
+    await router.push('/dashboard')
+  } finally {
+    loadingForm.value = false
+  }
+}
+
+async function updateForm() {
+  updatingForm.value = true
+
+  try {
+    await $fetch(`http://localhost:8000/forms/${route.params.formName}`, {method: 'PATCH', body: JSON.stringify(info.value)}).catch((error) => error.data)
+
+    await loadForm()
+  } finally {
+    updatingForm.value = false
+  }
 }
 
 async function deleteForm() {
