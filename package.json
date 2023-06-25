@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --dotenv .env",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -15,6 +15,7 @@
     "typescript": "latest"
   },
   "dependencies": {
+    "@auth0/auth0-vue": "^2.2.0",
     "@mdi/font": "^7.2.96",
     "sass": "^1.63.6",
     "vuetify": "^3.3.4"
