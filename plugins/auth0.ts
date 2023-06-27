@@ -1,5 +1,5 @@
 import {createAuth0} from '@auth0/auth0-vue'
-import {defineNuxtPlugin, addRouteMiddleware, useRoute} from "nuxt/app";
+import {defineNuxtPlugin, addRouteMiddleware, useRoute, useRuntimeConfig} from "nuxt/app";
 
 export default defineNuxtPlugin((nuxtApp) => {
     const config = useRuntimeConfig()

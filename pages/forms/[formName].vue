@@ -11,15 +11,15 @@
         </v-tabs>
         <v-window v-model="tab">
           <v-window-item value="overview">
-            Overview
+            <records-chart v-if="form" form="form" class="my-2" />
           </v-window-item>
           <v-window-item value="records">
-            Records
+            <records-list v-if="form" form="form" class="my-2" />
           </v-window-item>
           <v-window-item value="settings">
             <v-card variant="tonal" class="my-2">
-              <v-form @submit.prevent="updateForm">
               <v-card-title>Info</v-card-title>
+              <v-form @submit.prevent="updateForm">
               <v-card-text>
                 <v-text-field label="Title" v-model="info.title" />
               </v-card-text>
@@ -57,25 +57,26 @@
 </template>
 
 <script setup>
-import {useRouter} from "#app";
+import {useRouter} from "nuxt/app";
+import RecordsList from "~/components/records-list.vue";
 
 definePageMeta({
   layout: 'dashboard',
 });
 
+const route = useRoute()
+const router = useRouter()
+
 const tab = ref()
 
 const form = ref()
-const loadingForm = ref(true)
+const loadingForm = ref(false)
 
 const info = ref({title: undefined})
 const updatingForm = ref(false)
 
 const deletingForm = ref(false)
 const deleteDialog = ref(false)
-
-const route = useRoute()
-const router = useRouter()
 
 loadForm()
 
