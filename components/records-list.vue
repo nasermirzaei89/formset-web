@@ -17,6 +17,7 @@
 
 <script setup lang="ts">
 import {ref} from 'vue';
+import {useAuth0} from "@auth0/auth0-vue";
 
 type Record = {
   uuid: string;
@@ -25,24 +26,31 @@ type Record = {
   data: {};
 }
 
+const auth0 = process.client ? useAuth0() : undefined
+
+
 const itemsPerPage = ref<number>(10)
-const headers=ref<any[]>([])
-const items=ref<Record[]>([])
-const loading =ref<boolean>(false)
+const headers = ref<any[]>([])
+const items = ref<Record[]>([])
+const loading = ref<boolean>(false)
 const totalItems = ref<number>(0)
 
 async function loadItems() {
   loading.value = true
 
   try {
-    const res = await $fetch('http://localhost:8000/records').catch((error) => error.data) as Record[]
+    const res = await $fetch('http://localhost:8000/records',{
+      headers: {
+        Authorization: `Bearer ${auth0?.idTokenClaims.value.__raw}`
+      }
+    }).catch((error) => error.data) as Record[]
 
-    items.value = res.map((item)=> Object.assign({}, ...Object.keys(item).map((key=>({[key]: JSON.stringify(item[key])})))))
+    items.value = res.map((item) => Object.assign({}, ...Object.keys(item).map((key => ({[key]: JSON.stringify(item[key])})))))
 
-    let h = []
+    let h: string[] = []
 
     for (const item of res) {
-      h = [...h,...Object.keys(item.data)]
+      h = [...h, ...Object.keys(item.data)]
     }
 
     headers.value = h.map((v) => ({

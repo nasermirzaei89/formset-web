@@ -15,6 +15,10 @@ import {
   Tooltip,
 } from 'chart.js';
 import {ref} from 'vue';
+import {useAuth0} from "@auth0/auth0-vue";
+
+const auth0 = process.client ? useAuth0() : undefined
+
 
 Chart.register(
     LineElement,
@@ -48,7 +52,9 @@ async function loadItems() {
   loading.value = true
 
   try {
-    const res = await $fetch('http://localhost:8000/records').catch((error) => error.data) as Record[]
+    const res = await $fetch('http://localhost:8000/records',{headers: {
+        Authorization: `Bearer ${auth0?.idTokenClaims.value.__raw}`
+      }}).catch((error) => error.data) as Record[]
 
     const labels = res.map((item)=> item.createdAt)
     const data = res.map((item)=> 1)

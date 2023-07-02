@@ -59,10 +59,14 @@
 <script setup>
 import {useRouter} from "nuxt/app";
 import RecordsList from "~/components/records-list.vue";
+import {useAuth0} from "@auth0/auth0-vue";
 
 definePageMeta({
   layout: 'dashboard',
 });
+
+const auth0 = process.client ? useAuth0() : undefined
+
 
 const route = useRoute()
 const router = useRouter()
@@ -84,7 +88,11 @@ async function loadForm() {
   loadingForm.value = true
 
   try {
-    form.value = await $fetch(`http://localhost:8000/forms/${route.params.formName}`)
+    form.value = await $fetch(`http://localhost:8000/forms/${route.params.formName}`,{
+      headers: {
+        Authorization: `Bearer ${auth0?.idTokenClaims.value.__raw}`
+      }
+    })
     info.value.title = form.value.title
   } catch (e) {
     await router.push('/dashboard')
@@ -97,7 +105,9 @@ async function updateForm() {
   updatingForm.value = true
 
   try {
-    await $fetch(`http://localhost:8000/forms/${route.params.formName}`, {method: 'PATCH', body: JSON.stringify(info.value)}).catch((error) => error.data)
+    await $fetch(`http://localhost:8000/forms/${route.params.formName}`, {method: 'PATCH',headers: {
+        Authorization: `Bearer ${auth0?.idTokenClaims.value.__raw}`
+      }, body: JSON.stringify(info.value)}).catch((error) => error.data)
 
     await loadForm()
   } finally {
@@ -109,7 +119,11 @@ async function deleteForm() {
   deletingForm.value = true
 
   try {
-    await $fetch(`http://localhost:8000/forms/${route.params.formName}`, {method: 'DELETE'}).catch((error) => error.data)
+    await $fetch(
+        `http://localhost:8000/forms/${route.params.formName}`,
+        {method: 'DELETE',headers: {
+            Authorization: `Bearer ${auth0?.idTokenClaims.value.__raw}`
+          }}).catch((error) => error.data)
 
     await router.push('/dashboard')
   } finally {

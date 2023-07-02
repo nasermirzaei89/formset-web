@@ -19,10 +19,26 @@
   </v-container>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import {useAuth0} from '@auth0/auth0-vue';
+
 definePageMeta({
   layout: 'dashboard',
 });
 
-const forms = await $fetch('http://localhost:8000/forms').catch((error) => error.data)
+const auth0 = process.client ? useAuth0() : undefined
+
+const forms = ref([])
+
+if (process.client) {
+  auth0?.getAccessTokenSilently().then((res)=>{
+    $fetch('http://localhost:8000/forms',{
+      headers: {
+        Authorization: `Bearer ${auth0?.idTokenClaims.value.__raw}`
+      }
+    }).then((res: any[])=>{
+      forms.value = res
+    })
+  })
+}
 </script>

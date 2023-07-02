@@ -15,6 +15,7 @@
 
 <script setup>
 import {useRouter} from "#app";
+import {useAuth0} from "@auth0/auth0-vue";
 
 definePageMeta({
   layout: 'dashboard',
@@ -25,6 +26,8 @@ const creating = ref(false)
 
 const router = useRouter()
 
+const auth0 = process.client ? useAuth0() : undefined
+
 async function createForm() {
   creating.value = true
 
@@ -33,6 +36,7 @@ async function createForm() {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${auth0?.idTokenClaims.value.__raw}`,
       },
       body: JSON.stringify({title: title.value}),
     }).catch((error) => error.data)
